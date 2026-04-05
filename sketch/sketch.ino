@@ -20,8 +20,6 @@ void setup() {
 }
 
 void loop() {
-  // byte error;
-  // byte address;
   int deviceCount = 0;
 
   Serial.println("\nScanning I2C bus...");
@@ -31,20 +29,14 @@ void loop() {
     byte error = Wire.endTransmission();
 
     if (error == 0) {
-      Serial.print("Device found at 0x");
-      if (address < 16) {
-        Serial.print("0");
-      }
-      Serial.print(address, HEX);
+      Serial.print("Device found at ");
+      print_address(address);
       Serial.print("  →  ");
-      printKnownDevice(address);
+      print_known_device(address);
       ++deviceCount;
     } else if (error == 4) {
-      Serial.print("Unknown error at 0x");
-      if (address < 16) {
-        Serial.print("0");
-      }
-      Serial.println(address, HEX);
+      Serial.print("Unknown error at ");
+      print_address(address);
     }
   }
 
@@ -58,7 +50,15 @@ void loop() {
   delay(5000);  // Rescan every 5 seconds
 }
 
-void printKnownDevice(byte address) {
+void print_address(byte address) {
+  Serial.print("0x");
+  if (address < 16) {
+    Serial.print("0");
+  }
+  Serial.print(address, HEX);
+}
+
+void print_known_device(byte address) {
   switch (address) {
     case 0x20: Serial.println("PCF8574 I/O Expander"); break;
     case 0x27: Serial.println("PCF8574 LCD / I/O Expander"); break;
