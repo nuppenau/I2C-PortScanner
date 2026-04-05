@@ -13,14 +13,14 @@ void setup() {
 
   Serial.println("\nI2C Scanner for XIAO ESP32-C6");
   Serial.println("Default I2C pins:");
-  Serial.print("SDA="); Serial.println(SDAPIN, HEX);
-  Serial.print("SCL="); Serial.println(SCLPIN, HEX);
+  Serial.print("SDA="); Serial.println(SDAPIN);
+  Serial.print("SCL="); Serial.println(SCLPIN);
 
   Wire.begin(SDAPIN, SCLPIN);
 }
 
 void loop() {
-  int deviceCount = 0;
+  int device_count = 0;
 
   Serial.println("\nScanning I2C bus...");
 
@@ -33,18 +33,18 @@ void loop() {
       print_address(address);
       Serial.print("  →  ");
       print_known_device(address);
-      ++deviceCount;
+      ++device_count;
     } else if (error == 4) {
       Serial.print("Unknown error at ");
       print_address(address);
     }
   }
 
-  if (deviceCount == 0) {
+  if (device_count == 0) {
     Serial.println("No I2C devices found.");
   }
   else {
-    Serial.printf("\n%d device(s) found.\n", deviceCount);
+    Serial.printf("\n%d device(s) found.\n", device_count);
   }
 
   delay(5000);  // Rescan every 5 seconds
